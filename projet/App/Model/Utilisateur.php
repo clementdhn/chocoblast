@@ -48,9 +48,9 @@
         public function setPasswordUtilisateur($pwd):void{
             $this->password_utilisateur = $pwd;
         }
-
-//Méthodes
-
+    /*-----------------------
+                    Méthodes
+            ------------------------*/
 //méthode pour ajouter un utilisateur en BDD
 public function addUser():void{
     try {
@@ -75,22 +75,31 @@ public function addUser():void{
     }
     
     }
+
 //méthode pour récupérer un utilisateur avec son mail
 public function getUserByMail():?array{
+    //exécution de la requête
     try {
-    $mail =$this->mail_utilisateur;
-    $req = $this->connexion()->prepare('SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur, mail_utilisateur, password_utilisateur, image_utilisateur, id_roles
-    FROM utilisateur WHERE mail_utilisateur = ?');
-    $req->bindParam(1, $mail, \PDO::PARAM_STR);
-    $req->execute();
-    $data = $req->fetchAll(\PDO::FETCH_OBJ);
-    return $data;
+        //récupération du mail
+        $mail = $this->mail_utilisateur;
+        //préparation de la requête
+        $req = $this->connexion()->prepare('SELECT id_utilisateur, nom_utilisateur, prenom_utilisateur,
+        mail_utilisateur, password_utilisateur, image_utilisateur, statut_utilisateur, id_roles
+        FROM utilisateur WHERE mail_utilisateur = ?');
+        //bind des paramètres
+        $req->bindParam(1, $mail, \PDO::PARAM_STR);
+        //éxécution de la requête
+        $req->execute();
+        //récupération sous forme de tableau d'objets
+        $data = $req->fetchAll(\PDO::FETCH_OBJ);
+        //retour du tableau
+        return $data;
     }
+    //gestion des erreurs (Exception)
     catch (\Exception $e){
-        die('Erreur: '.$e->getMessage());
+        //affichage de l'erreur
+        die('Erreur : '.$e->getMessage());
+        }
     }
 }
-}
-
-
 ?>

@@ -4,6 +4,7 @@
     use App\Controller\RolesController;
     include './App/Utils/BddConnect.php';
     include './App/Utils/Fonctions.php';
+    //include le model et le controller Roles
     include  './App/Model/Roles.php';
     include './App/Model/Utilisateur.php';
     include './App/Controller/UserController.php';
@@ -15,6 +16,7 @@
  $path = isset($url['path']) ? $url['path'] : '/';
  //instance des controllers
  $userController = new UserController();
+ //instancier le controller roles
  $rolesController = new RolesController();
  //routeur
  switch ($path) {
@@ -25,6 +27,7 @@
         //appel de la fonction insertUser
         $userController->insertUser();
          break;
+         //case pour ajouter un roles
     case '/chocoblast/projet/addRoles':
         $rolesController->insertRoles();
          break;

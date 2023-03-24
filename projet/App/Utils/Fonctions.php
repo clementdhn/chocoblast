@@ -6,3 +6,4 @@
             return htmlspecialchars(strip_tags(trim($value)));
         }
     }
+?>
