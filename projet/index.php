@@ -1,7 +1,10 @@
 <?php
+    //démarrage de la session
+    session_start();
     //importer les ressources
     use App\Controller\UserController;
     use App\Controller\RolesController;
+    use App\Controller\ChocoblastController;
     include './App/Utils/BddConnect.php';
     include './App/Utils/Fonctions.php';
     //include le model et le controller Roles
@@ -9,6 +12,8 @@
     include './App/Model/Utilisateur.php';
     include './App/Controller/UserController.php';
     include './App/Controller/RolesController.php';
+    include './App/Model/Chocoblast.php';
+    include './App/Controller/ChocoblastController.php';
 
  //Analyse de l'URL avec parse_url() et retourne ses composants
  $url = parse_url($_SERVER['REQUEST_URI']);
@@ -18,6 +23,8 @@
  $userController = new UserController();
  //instancier le controller roles
  $rolesController = new RolesController();
+ //instancier le controller Chocoblast
+ $chocoblastController = new ChocoblastController();
  //routeur
  switch ($path) {
      case '/chocoblast/projet/':
@@ -31,14 +38,17 @@
     case '/chocoblast/projet/addRoles':
         $rolesController->insertRoles();
          break;
-        
+    case '/chocoblast/projet/chocoblastAdd':
+        $chocoblastController->inserChocoblast();
+        break;
+    case '/chocoblast/projet/connexion':
+        $userController->connexionUser();
+            break;
+    case '/chocoblast/projet/deconnexion':
+        $userController->deconnexionUser();
+        break;
      default:
          include './App/Vue/error.php';
          break;
  }
-
-//Getters et setters
-
-
-
 ?>

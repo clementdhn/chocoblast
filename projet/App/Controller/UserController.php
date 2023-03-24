@@ -84,7 +84,12 @@ class UserController extends Utilisateur{
     //import de la vue connexion
     include './App/Vue/ViewConnexion.php';
     }
-    
+    public function deconnexionUser(){
+        //Détruire la session
+        session_destroy();
+        //Rediriger vers la page d'accueil
+        header('Location: ./');
+    } 
 }
 
 ?>

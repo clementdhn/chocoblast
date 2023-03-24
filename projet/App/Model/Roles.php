@@ -21,10 +21,12 @@
     public function getNomRoles():?string{
         return $this->nom_roles;
     }
+    public function setIdRoles($id):void{
+        $this->id_roles = $id;
+    }
     public function setNomRoles($name):void{
         $this->nom_roles = $name;
     }
-
     public function addRoles():void{
         try{
         $nom = $this->nom_roles;
@@ -40,8 +42,8 @@
     }
 
     }
-//méthode pour récupérer un role par son nom
-public function getRolesByName():?array{
+    //méthode pour récupérer un role par son nom
+    public function getRolesByName():?array{
     try{
         //Récupération des valeurs de l'objet
         $nom = $this->nom_roles;
@@ -55,10 +57,14 @@ public function getRolesByName():?array{
         $data = $req->fetchAll(\PDO::FETCH_OBJ);
         //Retour d'un tableau d'objet ou null
         return $data;
-    } 
+        } 
     catch(\Exception $e){
         die('Erreur : '.$e->getMessage());
+        }
     }
-}
+    //Méthode toString
+    public function __toString():string{
+        return $this->nom_roles;
+    }
 }
 ?>

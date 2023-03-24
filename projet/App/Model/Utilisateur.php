@@ -13,13 +13,16 @@
         private $password_utilisateur;
         private $image_utilisateur;
         private $statut_utilisateur;
-        private $roles;
+        private ?Roles $roles;
 
 //constructeur
 
         public function __construct(){
             //instancier un objet role quand on crée un utilisateur
             //$this->roles = new Roles('user');
+        $this->roles = new Roles();
+        //Set de l'id_roles
+        $this->roles->setIdRoles(1);
         }
         public function getIdUtilisateur():?int{
             return $this->id_utilisateur;
@@ -35,6 +38,9 @@
         }
         public function getPasswordUtilisateur():?string{
             return $this->password_utilisateur;
+        }
+        public function setIdUtilisateur($name):void{
+            $this->id_utilisateur = $name;
         }
         public function setNomUtilisateur($name):void{
             $this->nom_utilisateur = $name;
@@ -76,8 +82,8 @@ public function addUser():void{
     
     }
 
-//méthode pour récupérer un utilisateur avec son mail
-public function getUserByMail():?array{
+    //méthode pour récupérer un utilisateur avec son mail
+    public function getUserByMail():?array{
     //exécution de la requête
     try {
         //récupération du mail
@@ -100,6 +106,27 @@ public function getUserByMail():?array{
         //affichage de l'erreur
         die('Erreur : '.$e->getMessage());
         }
+    }
+    //Méthode qui retourne tous les utilisateurs
+    public function getUserAll():?array{
+        try{
+            //Préparer la requête
+            $req = $this->connexion()->prepare('SELECT id_utilisateur, nom_utilisateur, 
+            prenom_utilisateur, mail_utilisateur, image_utilisateur FROM utilisateur');
+            //Exécuter la requête
+            $req->execute();
+            //Récupérer la liste des utilisateurs
+            $data = $req->fetchAll(\PDO::FETCH_OBJ);
+            //retourner le tableau
+            return $data;
+        } 
+        catch(\Exception $e){
+            die('Erreur : '.$e->getMessage());
+        }
+    }
+    //Méthode toString
+    public function __toString():string{
+        return $this->nom_utilisateur;
     }
 }
 ?>
