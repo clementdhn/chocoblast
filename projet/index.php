@@ -25,7 +25,8 @@
  $rolesController = new RolesController();
  //instancier le controller Chocoblast
  $chocoblastController = new ChocoblastController();
- //routeur
+ //routeur connecte
+ //if(isset($_SESSION['connected'])){
  switch ($path) {
      case '/chocoblast/projet/':
          include './App/Vue/home.php';
@@ -34,7 +35,16 @@
         //appel de la fonction insertUser
         $userController->insertUser();
          break;
-         //case pour ajouter un roles
+    case '/projet/chocoblastAll':
+    $chocoblastController->showAllChocoblast();
+        break;
+    case '/projet/chocoblastDelete':
+        header('Location: ./chocoblastAll');
+        break;
+    case '/projet/chocoblastUpdate':
+        header('Location: ./chocoblastAll');
+        break;
+    //case pour ajouter un role
     case '/chocoblast/projet/addRoles':
         $rolesController->insertRoles();
          break;
@@ -50,5 +60,34 @@
      default:
          include './App/Vue/error.php';
          break;
- }
+    }
+ //}
+ /*
+ //routeur non connecté
+ else{
+    switch ($path) {
+        case 'chocoblast/projet/':
+            include './App/Vue/home.php';
+            break;
+        case 'chocoblast/projet/addUser':
+            $userController->insertUser();
+            break;
+        case 'chocoblast/projet/chocoblastAll':
+            $chocoblastController->showAllChocoblast();
+            break;
+        case 'chocoblast/projet/chocoblastDelete':
+            header('Location: ./chocoblastAll');
+            break;
+        case 'chocoblast/projet/chocoblastUpdate':
+            header('Location: ./chocoblastAll');
+            break;
+        case 'chocoblast/projet/connexion':
+            $userController->connexionUser();
+            break;
+        default:
+            include './App/Vue/error.php';
+            break;
+    }
+}
+*/
 ?>

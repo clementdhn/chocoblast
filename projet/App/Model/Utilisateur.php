@@ -65,6 +65,8 @@ public function addUser():void{
         $prenom = $this->prenom_utilisateur;
         $mail = $this->mail_utilisateur;
         $password = $this->password_utilisateur;
+        //récupération du role
+        $id = $this->roles->getIdRoles();
         //préparer la requête
         $req = $this->connexion()->prepare('INSERT INTO utilisateur(nom_utilisateur, 
         prenom_utilisateur, mail_utilisateur, password_utilisateur) VALUES(?,?,?,?)');

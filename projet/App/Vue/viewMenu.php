@@ -6,6 +6,8 @@ if(isset($_SESSION['connected'])){
     <div id="navbar">
         <li><a href="./">Home</a></li>
         <li><a href="./chocoblastAdd">Ajouter chocoblast</a></li>
+        <li><a href="./chocoblastAll">Afficher</a></li>
+        <li><a href="./addRoles">Ajouter Role</a></li>
         <li><a href="./deconnexion">Deconnexion</a></li>
     </div>
 <?php
@@ -17,7 +19,7 @@ if(isset($_SESSION['connected'])){
     <div id="navbar">
         <li><a href="./">Home</a></li>
         <li><a href="./addUser">Inscription</a></li>
-        <li><a href="./addRoles">Ajouter Role</a></li>
+        <li><a href="./chocoblastAll">Afficher</a></li>
         <li><a href="./connexion">Connexion</a></li>
     </div>
 <?php

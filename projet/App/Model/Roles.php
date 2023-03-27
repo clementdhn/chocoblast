@@ -27,6 +27,10 @@
     public function setNomRoles($name):void{
         $this->nom_roles = $name;
     }
+ /*-----------------------
+                Méthodes
+        ------------------------*/
+    //méthode pour ajouter un role en BDD
     public function addRoles():void{
         try{
         $nom = $this->nom_roles;

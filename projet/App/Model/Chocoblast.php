@@ -116,26 +116,90 @@ class Chocoblast extends BddConnect{
         //Retourner le tableau
         return $data;
     }
+    
+    //Méthode qui retourne tous les chocoblasts actif (statut_chocoblast = 1)
+    public function getAllChocoblast(int $filter):?array{
+        $requete =  '';
+        if($filter == 1){
+            $requete = 'SELECT id_chocoblast, slogan_chocoblast, date_chocoblast, 
+            auteur.nom_utilisateur AS nom_auteur, auteur.prenom_utilisateur AS prenom_auteur,
+            auteur.id_utilisateur AS id_auteur, 
+            cible.nom_utilisateur AS nom_cible, cible.prenom_utilisateur AS prenom_cible, 
+            cible.id_utilisateur AS id_cible FROM chocoblast 
+            INNER JOIN utilisateur AS cible ON cible_chocoblast = cible.id_utilisateur
+            INNER JOIN utilisateur AS auteur ON auteur_chocoblast = auteur.id_utilisateur
+            WHERE statut_chocoblast = 1 ORDER BY date_chocoblast ASC';
+        }
+        elseif($filter == 2){
+            $requete = 'SELECT id_chocoblast, slogan_chocoblast, date_chocoblast, 
+            auteur.nom_utilisateur AS nom_auteur, auteur.prenom_utilisateur AS prenom_auteur,
+            auteur.id_utilisateur AS id_auteur, 
+            cible.nom_utilisateur AS nom_cible, cible.prenom_utilisateur AS prenom_cible, 
+            cible.id_utilisateur AS id_cible FROM chocoblast 
+            INNER JOIN utilisateur AS cible ON cible_chocoblast = cible.id_utilisateur
+            INNER JOIN utilisateur AS auteur ON auteur_chocoblast = auteur.id_utilisateur
+            WHERE statut_chocoblast = 1 ORDER BY date_chocoblast DESC';
+        }
+        elseif($filter == 3){
+            $requete = 'SELECT id_chocoblast, slogan_chocoblast, date_chocoblast, 
+            auteur.nom_utilisateur AS nom_auteur, auteur.prenom_utilisateur AS prenom_auteur,
+            auteur.id_utilisateur AS id_auteur, 
+            cible.nom_utilisateur AS nom_cible, cible.prenom_utilisateur AS prenom_cible, 
+            cible.id_utilisateur AS id_cible FROM chocoblast 
+            INNER JOIN utilisateur AS cible ON cible_chocoblast = cible.id_utilisateur
+            INNER JOIN utilisateur AS auteur ON auteur_chocoblast = auteur.id_utilisateur
+            WHERE statut_chocoblast = 1 ORDER BY slogan_chocoblast ASC';
+        }
+        else{
+            $requete = 'SELECT id_chocoblast, slogan_chocoblast, date_chocoblast, 
+            auteur.nom_utilisateur AS nom_auteur, auteur.prenom_utilisateur AS prenom_auteur,
+            auteur.id_utilisateur AS id_auteur, 
+            cible.nom_utilisateur AS nom_cible, cible.prenom_utilisateur AS prenom_cible, 
+            cible.id_utilisateur AS id_cible FROM chocoblast 
+            INNER JOIN utilisateur AS cible ON cible_chocoblast = cible.id_utilisateur
+            INNER JOIN utilisateur AS auteur ON auteur_chocoblast = auteur.id_utilisateur
+            WHERE statut_chocoblast = 1 ORDER BY slogan_chocoblast DESC';
+        }
+        //Préparer la requête
+        $req = $this->connexion()->prepare($requete);
+        //Exécution de la requête
+        $req->execute();
+        //Récupérer le chocoblast
+        $data = $req->fetchAll(\PDO::FETCH_OBJ);
+        //Retourner le tableau
+        return $data;
+    }
+    //Méthode qui met à jour un chocoblast
+    public function updateChocoblast():void{
+        $id = $this->id_chocoblast;
+        $slogan = $this->slogan_chocoblast;
+        $date = $this->date_chocoblast;
+        $cible = $this->getCibleChocoblast()->getIdUtilisateur();
+        $auteur = $this->getAuteurChocoblast()->getIdUtilisateur();
+        $req = $this->connexion()->prepare('UPDATE chocoblast 
+        SET slogan_chocoblast = ?, date_chocoblast = ?, 
+        cible_chocoblast = ?, auteur_chocoblast = ?
+        WHERE id_chocoblast = ?');
+        $req->bindParam(1, $slogan, \PDO::PARAM_STR);
+        $req->bindParam(2, $date, \PDO::PARAM_STR);
+        $req->bindParam(3, $cible, \PDO::PARAM_STR);
+        $req->bindParam(4, $auteur, \PDO::PARAM_STR);
+        $req->bindParam(5, $id, \PDO::PARAM_STR);
+        $req->execute();
+    }
+    //Méthode qui supprime un chocoblast (passe le statut_chocoblast = 0)
+    public function deleteChocoblast():void{
+        $id = $this->id_chocoblast;
+        $req = $this->connexion()->prepare('UPDATE chocoblast SET statut_chocoblast = 0
+        WHERE id_chocoblast = ?');
+        $req->bindParam(1, $id, \PDO::PARAM_INT);
+        $req->execute();
+    }
     //Méthode toString
     public function __toString():string{
         return $this->slogan_chocoblast;
     }
-    public function getChocoblastAll():?array{
-        try{
-            //Préparer la requête
-            $req = $this->connexion()->prepare('SELECT id_chocoblast, slogan_chocoblast, 
-            date_chocoblast, auteur_chocoblast FROM chocoblast');
-            //Exécuter la requête
-            $req->execute();
-            //Récupérer la liste des utilisateurs
-            $data = $req->fetchAll(\PDO::FETCH_OBJ);
-            //retourner le tableau
-            return $data;
-        } 
-        catch(\Exception $e){
-            die('Erreur : '.$e->getMessage());
-        }
-    }
 }
+
 
 ?>
