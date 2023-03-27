@@ -9,15 +9,27 @@
     <title>Add Commentaire</title>
 </head>
 <body>
-    <!--import du menu-->
-    <?php include './App/Vue/viewMenu.php';?>
-    <div class="form">
+<!--import du menu -->
+<?php include './App/Vue/viewMenu.php';?>
+    <section class="formContainer">
+        <h3>Ajouter un Commentaire :</h3>
         <form action="" method="post">
-            <input type="text" name = "note_chocoblast">
-            <input type="text" name = "text_chocoblast">
-            <input type="text" name = "statut_chocoblast">
-            <input type="date" name = "date_chocoblast">
+            <label for="note_commentaire">Saisir votre note :</label>
+            <input type="text" name="note_commentaire">
+            <label for="text_commentaire">Saisir votre commentaire :</label>
+            <input type="text" name="text_commentaire">
+            <label for="date_commentaire">Saisir la date :</label>
+            <input type="date" name="date_commentaire">
             <input type="submit" value="Ajouter" name="submit">
-
+        </form>
+    </section>
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p><?= $msg ?></p>
+        </div>
+    </div>
 </body>
 </html>

@@ -6,36 +6,56 @@ use App\Model\Chocoblast;
 use App\Model\Commentaire;
 
 class CommentaireController extends Commentaire{
+//fonction qui va ajouter un commentaire en BDD
 public function insertCommentaire():void{
-    $msg ="";
+    //tester si l'utilisateur est connecté
+    if(isset($_SESSION['connected'])){
+    //tester si le formulaire est submit
     if (isset($_POST['submit'])){
-        if(isset($_SESSION['connected'])){
-            //Générer la liste déroulante cible
-            $user = new Utilisateur();
-            $data = $user->getUserAll();
         //Nettoyer les inputs
         $note = Fonctions::cleanInput($_POST['note_commentaire']);
         $text = Fonctions::cleanInput($_POST['text_commentaire']);
         $date = Fonctions::cleanInput($_POST['date_commentaire']);
-        $statut = Fonctions::cleanInput($_POST['statut_commentaire']);
-        $choco = Fonctions::cleanInput($_POST['id_chocoblast']);
-        $auteur = Fonctions::cleanInput($_POST['auteur_commentaire']);
-    }
-    //test si les champs sont remplis
+        $auteur = Fonctions::cleanInput($_SESSION['id']);
+        $choco = Fonctions::cleanInput($_GET['id_chocoblast']);
+    //tester si les champs sont remplis
     if(!empty($note) AND !empty($text) AND !empty($date) 
-    AND !empty($statut) AND !empty($choco) AND !empty($auteur)){
+    AND !empty($choco) AND !empty($auteur)){
         $this->setNoteCommentaire($note);
         $this->setTextCommentaire($text);
         $this->setDateCommentaire($date);
-        $this->setStatutCommentaire($statut);
-        //$this->setChocoblastCommentaire($choco);
-        //$this->setAuteurCommentaire($auteur);
-    //Tester si le commentaire existe déjà
+        $this->getAuteurCommentaire()->setIdUtilisateur($auteur);
+        $this->getChocoblastCommentaire()->setIdChocoblast($choco);
+        echo '<pre>';
+        var_dump($this);
+        //Ajouter en BDD le commentaire
+        $this->addCommentaire();
+        $msg = "Le commentaire : du chocoblast : ".$choco." a été ajouté en BDD";
+        
+        echo '<script>
+        setTimeout(()=>{
+            modal.style.display = "block";
+        }, 500);
+    </script>';
+    }   
+    //Tester sinon les champs ne sont pas remplis
+    else{
+        $msg = "Veuillez remplir tous les champs de formulaire";
+        echo '<script>
+            setTimeout(()=>{
+                modal.style.display = "block";
+            }, 500);
+        </script>';
     }
     }
-    //Import de la vue
+    //Importer la vue
     include './App/Vue/viewAddCommentaire.php';
+    }
+    //Test sinon redirection vers la affichage de tous les chocoblasts
+    else{
+    header('Location: ./chocoblastAll');
+        }
+    }
 }
-
-}
+ 
 ?>

@@ -1,6 +1,8 @@
 <?php
 namespace App\Model;
 use App\Utils\BddConnect;
+use App\Model\Chocoblast;
+use App\Model\Utilisateur;
 
     class Commentaire extends BddConnect{
         /*-------------------------------
